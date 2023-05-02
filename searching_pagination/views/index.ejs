@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/assets/index.css">
+</head>
+
+<body>
+    <h1>STUDENT DATA</h1>
+
+    <center>    
+        <form action="/form" style="margin-bottom: 25px;">
+            <input type="text" name="searchbar" id="searchbar" value=<%=harsh%>>
+            <input type="submit" value="GO">
+        </form>
+        <p>
+            Student_fname='^',  Student_lname='%',  Student_contact='#', Student_email='!', Student_city='~', Student_Dob='-'
+        </p>
+    </center>
+    
+    <table border="2">
+        <tr class="header">
+            <td class="table_header"><a href="/page?id=id>">Student_ID</a></td>
+            <td class="table_header"><a href="/page?id=std_fname>">Student_fName</a></td>
+            <td class="table_header"><a href="/page?id=std_lname>">Student_lName</a></td>
+            <td class="table_header"><a href="/page?id=contact>">Student_Contact</a></td>
+            <td class="table_header"><a href="/page?id=email>">Student_Email</a></td>
+            <td class="table_header"><a href="/page?id=city>">Student_City</a></td>
+            <td class="table_header"><a href="/page?id=dob>">Student_Dob</a></td>
+        </tr>
+        <% for(i=0;i <data.length;i++){ %>
+            <tr>
+                <td>
+                    <%=data[i].id%>
+                </td>
+                <td>
+                    <%=data[i].std_fname%>
+                </td>
+                <td>
+                    <%=data[i].std_lname%>
+                </td>
+
+                <td>
+                    <%=data[i].contact%>
+                </td>
+                <td>
+                    <%=data[i].email%>
+                </td>
+                <td>
+                    <%=data[i].city%>
+                </td>
+                <td>
+                    <%=data[i].dob%>
+                </td>
+                
+            </tr>
+            <% } %>
+
+    </table>
+
+
+</body>
+
+</html>
