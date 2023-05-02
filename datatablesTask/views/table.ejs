@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Tables Task</title>
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      table,
+      td,
+      th {
+        border: 2px solid red;
+        width: 100%;
+      }
+      td,
+      th {
+        width: calc(100%/3);
+      }
+
+      table,
+      .header {
+        margin-top: 2rem;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      #search {
+        border: none;
+        outline: none;
+      }
+
+      .searchSec {
+        margin-right: 2rem;
+        border: 1px solid black;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="dropdown">
+        <span>Show</span>
+        <select name="select" id="select">
+          <option value="select">Select</option>
+          <%for(var i=0;i<data.length;i++){%>
+            <option value="<%=data[i].optionsList %>" id="<%=data[i].optionsList %>" name="<%=data[i].optionsList %>"><%=data[i].optionsList %></option>
+            <%}%>
+        </select>
+        <span>entries</span>
+      </div>
+
+      <div class="searchSec">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="search"
+          name="search"
+          id="search"
+          placeholder="Search here"
+        />
+      </div>
+    </div>
+    <table>
+      <tr>
+        <th>FisrtName</th>
+        <th>LastName</th>
+        <th>Email</th>
+      </tr>
+
+      <!-- <tr>
+        <td>Harsh</td>
+        <td>Junior Software Developer</td>
+        <td>eSparkBiz</td>
+        <td>21</td>
+        <td>23-January</td>
+      </tr> -->
+
+     
+      <%for(var i=0;i<data3.length;i++){%>
+      <tr>
+        
+        <td><%=data3[i].firstName%></td>
+        <td><%=data3[i].lastName%></td>
+        <td><%=data3[i].email%></td>
+        </tr>
+        <%}%>
+
+    </table>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<%for(var i=0;i<data3.length;i++){%>
+  <tr>
+
+
+    <td>
+      <%=data3[i].firstName%>
+    </td>
+    <td>
+      <%=data3[i].lastName%>
+    </td>
+    <td>
+      <%=data3[i].email%>
+    </td>
+  </tr>
+  <%}%>

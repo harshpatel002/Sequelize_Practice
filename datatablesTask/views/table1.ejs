@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Tables Task</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script>
+      // $(document).ready(function () {
+      //   $("#myTable").DataTable();
+      // });
+
+      $(document).ready(function () {
+        $("#myTable").DataTable({
+          // "lengthMenu":[5,10,15,20,25,30,35,40]
+          lengthMenu: [
+            [5, 10, 15, 20, 25, 30],
+            [5, 10, 15, 20, 25, 30],
+          ],
+          // "lengthChange":false,
+          // "length":5,
+          // When return:true will not able to search and when return:false will able to search
+          // search:{
+          //   return:true,
+          // },
+          serverSide: true,
+          processing: true,
+          serverMethod: "get",
+          ajax: {
+            url: "/pagination",
+          },
+          columns: [
+            { data: "firstName" },
+            { data: "lastName" },
+            { data: "email" },
+            { data: "work_Experiences[].companyName" },
+            { data: "work_Experiences[].designation" },
+          ],
+          // "lengthChange":false,
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <table id="myTable" class="display">
+      <thead>
+        <tr>
+          <th>FisrtName</th>
+          <th>LastName</th>
+          <th>Email</th>
+          <th>Company Name</th>
+          <th>Designation</th>
+        </tr>
+      </thead>
+
+      <tbody></tbody>
+    </table>
+  </body>
+</html>
