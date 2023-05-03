@@ -1,5 +1,3 @@
-const express = require("express");
-const app = express();
 const mysql = require("mysql2");
 const { Op } = require("sequelize");
 const { faker } = require("@faker-js/faker");
