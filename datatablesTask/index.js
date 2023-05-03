@@ -268,142 +268,59 @@ app.get("/pagination", async (req, res) => {
 
     if (slice == "work_Experiences") {
       table = "work_Experiences";
-      ordertable = [work_Experience, orderBy11, orderDir];
-      console.log("aslkdjfhjkasefjhkjsf");
+      ordertable = [table, orderBy11, orderDir];
     } else {
-      // table = "candidate_basic_info";
       ordertable = [orderBy, orderDir];
     }
     console.log("******************************", ordertable);
-    // return;
-    if (length < 0) {
-      var data3 = await candidate_basic_info.findAll({
-        order: [ordertable],
-        attributes: ["firstName", "lastName", "email"],
-        include: {
-          model: work_Experience,
-          require: true,
-          where: {
-            [Op.or]: [
-              {
-                "$candidate_basic_info.firstName$": {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-              {
-                "$candidate_basic_info.lastName$": {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-              {
-                "$candidate_basic_info.email$": {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-              {
-                companyName: {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-              {
-                designation: {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-            ],
-          },
-          attributes: ["companyName", "designation"],
-        },
-      });
-    } else {
-      var data3 = await candidate_basic_info.findAll({
-        offset: start,
-        limit: length,
-        order: [ordertable],
-        attributes: ["firstName", "lastName", "email"],
-        include: {
-          model: work_Experience,
-          require: true,
-          where: {
-            [Op.or]: [
-              {
-                "$candidate_basic_info.firstName$": {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-              {
-                "$candidate_basic_info.lastName$": {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-              {
-                "$candidate_basic_info.email$": {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-              {
-                companyName: {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-              {
-                designation: {
-                  [Op.like]: `%${search.value}%`,
-                },
-              },
-            ],
-          },
-          attributes: ["companyName", "designation"],
-        },
-      });
-    }
-
-    // const data3 = await candidate_basic_info.findAll({
-    //   offset: start,
-    //   limit: length,
-    //   order: [[orderBy, orderDir]],
-    //   attributes: ["firstName", "lastName", "email"],
-    //   include: {
-    //     model: work_Experience,
-    //     order: [["model.work_Experience",orderBy, orderDir]],
-    //     require: true,
-    //     where: {
-    //       [Op.or]: [
-    //         {
-    //           "$candidate_basic_info.firstName$": {
-    //             [Op.like]: `%${search.value}%`,
-    //           },
-    //         },
-    //         {
-    //           "$candidate_basic_info.lastName$": {
-    //             [Op.like]: `%${search.value}%`,
-    //           },
-    //         },
-    //         {
-    //           "$candidate_basic_info.email$": {
-    //             [Op.like]: `%${search.value}%`,
-    //           },
-    //         },
-    //         {
-    //           companyName: {
-    //             [Op.like]: `%${search.value}%`,
-    //           },
-    //         },
-    //         {
-    //           designation: {
-    //             [Op.like]: `%${search.value}%`,
-    //           },
-    //         },
-    //       ],
-    //     },
-    //     attributes: ["companyName", "designation"],
-    //   },
-    // });
 
     const data4 = await candidate_basic_info.count();
-    // console.log("---------------------------------------", data3);
 
-    // res.json(data3);
+    if (length == -1) {
+      length = data4;
+    }
+
+    var data3 = await candidate_basic_info.findAll({
+      offset: start,
+      limit: length,
+      order: [ordertable],
+      attributes: ["firstName", "lastName", "email"],
+      include: {
+        model: work_Experience,
+        require: true,
+        where: {
+          [Op.or]: [
+            {
+              "$candidate_basic_info.firstName$": {
+                [Op.like]: `%${search.value}%`,
+              },
+            },
+            {
+              "$candidate_basic_info.lastName$": {
+                [Op.like]: `%${search.value}%`,
+              },
+            },
+            {
+              "$candidate_basic_info.email$": {
+                [Op.like]: `%${search.value}%`,
+              },
+            },
+            {
+              companyName: {
+                [Op.like]: `%${search.value}%`,
+              },
+            },
+            {
+              designation: {
+                [Op.like]: `%${search.value}%`,
+              },
+            },
+          ],
+        },
+        attributes: ["companyName", "designation"],
+      },
+    });
+
     return res.json({
       start: start,
       draw: draw,
