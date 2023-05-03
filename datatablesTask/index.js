@@ -9,13 +9,13 @@ app.use(express.static("assets"));
 const { Model } = require("sequelize");
 const port = 3006;
 
-const addData = require("./controller/addDataController");
-const pagination = require("./controller/indexController");
-const dataShow = require("./controller/indexController");
+const addData = require("./routes/addDataRoutes");
+const pagination = require("./routes/indexRoutes");
+const dataShow = require("./routes/indexRoutes");
 
-app.use("/addData", addData.addData);
-app.use("/pagination", pagination.pagination);
-app.use("/", dataShow.dataShow);
+app.use("/", addData);
+app.use("/", pagination);
+app.use("/", dataShow);
 
 app.listen(port, (req, res) => {
   console.log("Successfully Connected");
