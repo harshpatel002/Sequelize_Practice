@@ -234,14 +234,14 @@ app.get("/", (req, res) => {
 
 app.get("/pagination", async (req, res) => {
   try {
-    console.log("********************************", req.query);
+    // console.log("********************************", req.query);
     // return;
     // const length = req.query.length;
     // const start = req.query.start;
     let search = req.query.search;
-    console.log("/////////////////////////", search.value);
+    // console.log("/////////////////////////", search.value);
     let draw = req.query.draw;
-    console.log("draw+++++++++++++++++++++", draw);
+    // console.log("draw+++++++++++++++++++++", draw);
     let length = parseInt(req.query.length);
     let start = parseInt(req.query.start);
 
@@ -252,55 +252,156 @@ app.get("/pagination", async (req, res) => {
     console.log("columns", columns);
     console.log("orderColumns", orderCol);
     let orderBy = columns[orderCol].data;
-    console.log("order", order);
-    console.log("order Dir", orderDir);
-    console.log("length", length);
-    console.log("start", start);
+    let orderBy1 = orderBy.split(".");
+    // console.log("order", order);
+    console.log("orderby", orderBy);
+    let orderBy10 = orderBy1[0];
+    let orderBy11 = orderBy1[1];
+    let slice = orderBy10.slice(0, -2);
+    console.log("orderby10", orderBy10);
+    console.log("orderby11", orderBy11);
+    // console.log("order Dir", orderDir);
+    // console.log("length", length);
+    // console.log("start", start);
+    let table;
+    let ordertable;
 
-    const data3 = await candidate_basic_info.findAll({
-      offset: start,
-      limit: length,
-      order: [[orderBy, orderDir]],
-      attributes: ["firstName", "lastName", "email"],
-      include: {
-        model: work_Experience,
-        order: [["model.work_Experience",orderBy, orderDir]],
-        require: true,
-        where: {
-          [Op.or]: [
-            {
-              "$candidate_basic_info.firstName$": {
-                [Op.like]: `%${search.value}%`,
+    if (slice == "work_Experiences") {
+      table = "work_Experiences";
+      ordertable = [work_Experience, orderBy11, orderDir];
+      console.log("aslkdjfhjkasefjhkjsf");
+    } else {
+      // table = "candidate_basic_info";
+      ordertable = [orderBy, orderDir];
+    }
+    console.log("******************************", ordertable);
+    // return;
+    if (length < 0) {
+      var data3 = await candidate_basic_info.findAll({
+        order: [ordertable],
+        attributes: ["firstName", "lastName", "email"],
+        include: {
+          model: work_Experience,
+          require: true,
+          where: {
+            [Op.or]: [
+              {
+                "$candidate_basic_info.firstName$": {
+                  [Op.like]: `%${search.value}%`,
+                },
               },
-            },
-            {
-              "$candidate_basic_info.lastName$": {
-                [Op.like]: `%${search.value}%`,
+              {
+                "$candidate_basic_info.lastName$": {
+                  [Op.like]: `%${search.value}%`,
+                },
               },
-            },
-            {
-              "$candidate_basic_info.email$": {
-                [Op.like]: `%${search.value}%`,
+              {
+                "$candidate_basic_info.email$": {
+                  [Op.like]: `%${search.value}%`,
+                },
               },
-            },
-            {
-              companyName: {
-                [Op.like]: `%${search.value}%`,
+              {
+                companyName: {
+                  [Op.like]: `%${search.value}%`,
+                },
               },
-            },
-            {
-              designation: {
-                [Op.like]: `%${search.value}%`,
+              {
+                designation: {
+                  [Op.like]: `%${search.value}%`,
+                },
               },
-            },
-          ],
+            ],
+          },
+          attributes: ["companyName", "designation"],
         },
-        attributes: ["companyName", "designation"],
-      },
-    });
+      });
+    } else {
+      var data3 = await candidate_basic_info.findAll({
+        offset: start,
+        limit: length,
+        order: [ordertable],
+        attributes: ["firstName", "lastName", "email"],
+        include: {
+          model: work_Experience,
+          require: true,
+          where: {
+            [Op.or]: [
+              {
+                "$candidate_basic_info.firstName$": {
+                  [Op.like]: `%${search.value}%`,
+                },
+              },
+              {
+                "$candidate_basic_info.lastName$": {
+                  [Op.like]: `%${search.value}%`,
+                },
+              },
+              {
+                "$candidate_basic_info.email$": {
+                  [Op.like]: `%${search.value}%`,
+                },
+              },
+              {
+                companyName: {
+                  [Op.like]: `%${search.value}%`,
+                },
+              },
+              {
+                designation: {
+                  [Op.like]: `%${search.value}%`,
+                },
+              },
+            ],
+          },
+          attributes: ["companyName", "designation"],
+        },
+      });
+    }
+
+    // const data3 = await candidate_basic_info.findAll({
+    //   offset: start,
+    //   limit: length,
+    //   order: [[orderBy, orderDir]],
+    //   attributes: ["firstName", "lastName", "email"],
+    //   include: {
+    //     model: work_Experience,
+    //     order: [["model.work_Experience",orderBy, orderDir]],
+    //     require: true,
+    //     where: {
+    //       [Op.or]: [
+    //         {
+    //           "$candidate_basic_info.firstName$": {
+    //             [Op.like]: `%${search.value}%`,
+    //           },
+    //         },
+    //         {
+    //           "$candidate_basic_info.lastName$": {
+    //             [Op.like]: `%${search.value}%`,
+    //           },
+    //         },
+    //         {
+    //           "$candidate_basic_info.email$": {
+    //             [Op.like]: `%${search.value}%`,
+    //           },
+    //         },
+    //         {
+    //           companyName: {
+    //             [Op.like]: `%${search.value}%`,
+    //           },
+    //         },
+    //         {
+    //           designation: {
+    //             [Op.like]: `%${search.value}%`,
+    //           },
+    //         },
+    //       ],
+    //     },
+    //     attributes: ["companyName", "designation"],
+    //   },
+    // });
 
     const data4 = await candidate_basic_info.count();
-    console.log("---------------------------------------", data3);
+    // console.log("---------------------------------------", data3);
 
     // res.json(data3);
     return res.json({
