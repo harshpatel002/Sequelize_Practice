@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0.0",
+  "info": {
+    "title": "Pagination Api",
+    "version": "1.0.0"
+  },
+  "servers": {
+    "url": "http://localhost:3007/"
+  },
+  "definitions": {
+    "candidate_basic_info": {
+      "properties": {
+        "id": {
+          "type": "INTEGER"
+        },
+        "firstName": {
+          "type": "STRING"
+        },
+        "lastName": {
+          "type": "STRING"
+        },
+        "email": {
+          "type": "STRING"
+        }
+      }
+    },
+    "work_Experiences": {
+      "properties": {
+        "id": {
+          "type": "INTEGER"
+        },
+        "candidate_id": {
+          "type": "STRING",
+          "foreign-key": "true"
+        },
+        "companyName": {
+          "type": "STRING"
+        },
+        "designation": {
+          "type": "STRING"
+        }
+      }
+    },  
+    "error": {
+      "summary": "5 Series Error Errors"
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Return all data",
+        "description": "Returns all data which supports pagination & searching",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "404 Error"
+          }
+        }
+      }
+    },
+    "/pagination": {
+      "get": {
+        "summary": "Pagination Data in JSON Format",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "404 Error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "5XX": {
+            "description": "5 Series Error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error"
+          }
+        }
+      }
+    },
+    "/addData": {
+      "get": {
+        "summary": "Used to insert the data",
+        "description": "Inserting the new data",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

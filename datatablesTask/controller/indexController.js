@@ -6,7 +6,7 @@ const dataShow = async (req, res) => {
   res.render("table1.ejs", {});
 };
 
-const pagination = async (req, res) => {
+const pagination = async (req, res) => {  
   try {
     let search = req.query.search;
     let searchValue = search.value;
@@ -22,7 +22,7 @@ const pagination = async (req, res) => {
     let orderBy10 = orderBy1[0];
     let orderBy11 = orderBy1[1];
     let slice = orderBy10.slice(0, -2);
-    
+
     let table;
     let ordertable;
 
@@ -32,7 +32,7 @@ const pagination = async (req, res) => {
     } else {
       ordertable = [orderBy, orderDir];
     }
-  
+
     const data4 = await countData();
 
     if (length == -1) {
