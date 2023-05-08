@@ -17,10 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   selectMaster.init({
-    selectValue: DataTypes.STRING
+    selectValue: DataTypes.STRING,
+    deletedAt: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'selectMaster',
+    paranoid:true,
   });
   return selectMaster;
 };

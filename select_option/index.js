@@ -8,8 +8,11 @@ app.use(express.static("assets"));
 
 const addData = require("./routes/addDataRoutes");
 const task = require("./routes/indexRoutes");
+const deleteData = require("./routes/deleteDataRoutes");
+// const deleteData= require("./")
 app.use("/", addData);
 app.use("/", task);
+app.use("/", deleteData);
 
 app.listen(port, (req, res) => {
   console.log("Connected Successfully");

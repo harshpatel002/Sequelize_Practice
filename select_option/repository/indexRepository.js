@@ -6,17 +6,18 @@ const { Model } = require("sequelize");
 const optionMaster = require("../models").optionMaster;
 const selectMaster = require("../models").selectMaster;
 
-const data1 = async ({field}) => {
+const data1 = async ({ field }) => {
   return selectMaster.findOne({
     attributes: ["id", "selectValue"],
     where: { selectValue: field },
   });
 };
 
-const data2 = async ({id}) => {
+const data2 = async ({ id }) => {
   return optionMaster.findAll({
     attributes: ["optionValue"],
     where: { selectId: id },
+    // paranoid:false,
   });
 };
 

@@ -18,10 +18,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       selectId: DataTypes.INTEGER,
       optionValue: DataTypes.STRING,
+      deletedAt: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "optionMaster",
+      paranoid:true,
     }
   );
   return optionMaster;
