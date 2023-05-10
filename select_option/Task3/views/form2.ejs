@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Practice</title>
+
+    <style>
+      #submit {
+        margin-top: 2rem;
+        width: 20%;
+        border-radius: 1rem;
+      }
+    </style>
+  </head>
+
+  <body onload="fun()">
+    <form action="/form" method="post">
+      <h1>hello</h1>
+      <div class="temp">
+        <input type="text" name="heading" id="heading" />
+        <select name="type" id="type" onchange="select(this)">
+          <option value="select">Select</option>
+          <option value="dropdown">Dropdown</option>
+          <option value="radio">Radio</option>
+          <option value="checkbox">Checkbox</option>
+        </select>
+        <div id="options"></div>
+        <input type="button" value="add options" onclick="addOptions(this)" />
+        <input type="button" value="Add Field" class="1" onclick="addField()" />
+      </div>
+      <div id="field"></div>
+
+      <input type="submit" value="Submit" id="submit" />
+    </form>
+
+    <script>
+      let id2 = 1;
+      function fun() {
+        let options = document
+          .getElementById("options")
+          .setAttribute("id", `add${id2}`);
+      }
+      function addOptions(id) {
+        console.log('?????????????????????????????????????',id2);
+        let ids = id.parentNode.childNodes[5];
+        let optionData = id.parentNode.childNodes[5];
+        let type = id.parentNode.childNodes[3].value;
+        let classList=id.parentNode.childNodes[9].classList[0];
+        console.log(classList);
+
+        if (type == "radio" || type == "checkbox") {
+          html2 = `<input type="${type}" disabled><input type="text" name="optionName[${classList}]" id="optionName[${classList}]"><br>`;
+          optionData.insertAdjacentHTML("beforeend", html2);
+        } else if (type == "dropdown") {
+          html2 = `<input type="text" name="optionName[${classList}]" id="optionName[${classList}]"><br>`;
+          optionData.insertAdjacentHTML("beforeend", html2);
+        } else {
+          alert("Please select any one type from the options");
+        }
+      }
+
+      function select(id) {
+        let ids = id.parentNode.childNodes[5];
+        let optionData = id.parentNode.childNodes[5];
+        let type = id.parentNode.childNodes[3].value;
+        let classList=id.parentNode.childNodes[9].classList[0];
+        optionData.innerHTML = ``;
+
+        if (type == "radio" || type == "checkbox") {
+          html2 = `<input type="${type}" disabled><input type="text" name="optionName[${classList}]" id="optionName[${classList}]"><br>`;
+          optionData.insertAdjacentHTML("beforeend", html2);
+        } else if (type == "dropdown") {
+          html2 = `<input type="text" name="optionName[${classList}]" id="optionName[${classList}]"><br>`;
+          optionData.insertAdjacentHTML("beforeend", html2);
+        } else {
+          alert("Please select any one type from the options");
+        }
+      }
+
+      function addField() {
+        id2++;
+
+        let field = document.getElementById("field");
+        html1 = `<div class="temp">
+      <input type="text" name="heading" id="heading" />
+      <select name="type" id="type" onchange="select(this)">
+        <option value="select">Select</option>
+        <option value="dropdown">Dropdown</option>
+        <option value="radio">Radio</option>
+        <option value="checkbox">Checkbox</option>
+      </select>
+      <div id="options"></div>
+      <input type="button" value="add options" onclick="addOptions(this)" />
+      <input type="button" value="Add Field" class="${id2}" onclick="addField()" />
+
+    </div>`;
+
+        field.insertAdjacentHTML("beforeend", html1);
+
+        let options = document.getElementById("options");
+        let type = document.getElementById("type");
+        // id2++;
+        options.setAttribute("id", `option${id2}`);
+        type.setAttribute("id", `type${id2}`);
+      }
+    </script>
+  </body>
+</html>
