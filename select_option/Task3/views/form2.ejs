@@ -12,12 +12,33 @@
         width: 20%;
         border-radius: 1rem;
       }
+      #userEmail {
+        margin-bottom: 2rem;
+        width: 20%;
+        height: 1.5rem;
+        margin-top: 1rem;
+        margin-right: 1rem;
+        border-radius: 1rem;
+        padding-left: 1rem;
+      }
+      #header {
+        display: flex;
+        justify-content: space-between;
+      }
     </style>
   </head>
 
   <body onload="fun()">
     <form action="/form" method="post">
-      <h1>hello</h1>
+      <div id="header">
+        <h1>Form Design</h1>
+        <input
+          type="text"
+          name="userEmail"
+          id="userEmail"
+          placeholder="Please enter your Email"
+        />
+      </div>
       <div class="temp">
         <input type="text" name="heading" id="heading" />
         <select name="type" id="type" onchange="select(this)">
@@ -46,7 +67,7 @@
         let ids = id.parentNode.childNodes[5];
         let optionData = id.parentNode.childNodes[5];
         let type = id.parentNode.childNodes[3].value;
-        let classList=id.parentNode.childNodes[9].classList[0];
+        let classList = id.parentNode.childNodes[9].classList[0];
         console.log(classList);
 
         if (type == "radio" || type == "checkbox") {
@@ -64,7 +85,7 @@
         let ids = id.parentNode.childNodes[5];
         let optionData = id.parentNode.childNodes[5];
         let type = id.parentNode.childNodes[3].value;
-        let classList=id.parentNode.childNodes[9].classList[0];
+        let classList = id.parentNode.childNodes[9].classList[0];
         optionData.innerHTML = ``;
 
         if (type == "radio" || type == "checkbox") {

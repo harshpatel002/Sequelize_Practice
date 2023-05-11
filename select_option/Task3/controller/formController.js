@@ -13,7 +13,7 @@ const data = async (req, res) => {
 const form = async (req, res) => {
   try {
     let { body } = req;
-    console.log(body);
+    let userEmail = body.userEmail;
 
     let i, j;
 
@@ -32,6 +32,7 @@ const form = async (req, res) => {
 
       await selectMasters.create(
         {
+          userEmail: body.userEmail,
           selectValue: body.heading[i],
           selectType: body.type[i],
           optionMasters: arrayOfOption,
@@ -44,7 +45,7 @@ const form = async (req, res) => {
       );
     }
 
-    res.redirect('/show')
+    res.redirect(`/show?userEmail=${userEmail}`);
   } catch (error) {
     console.log(error);
   }
@@ -53,22 +54,24 @@ const form = async (req, res) => {
 const show = async (req, res) => {
   try {
     let html = "";
+    let userEmail = req.query.userEmail;
 
     let selectMaster = await selectMasters.findAll({
-      attributes: ["id", "selectValue", "selectType"],
+      attributes: ["id", "userEmail", "selectValue", "selectType"],
+      where: {
+        userEmail: userEmail,
+      },
       include: [{ model: optionMasters, attributes: ["optionValue"] }],
     });
 
     selectMaster.forEach((element) => {
-      console.log("==================================");
-      // console.log(element);
       let selectType = element.selectType;
       let selectValue = element.selectValue;
       html += `<br><span class="heading">${selectValue}:</span>   `;
       if (selectType == "dropdown") {
         html += `<select>`;
       }
-      console.log(selectType);
+
       for (const iterator of element.optionMasters) {
         let optionValue = iterator.optionValue;
         if (selectType == "radio" || selectType == "checkbox") {
@@ -82,9 +85,8 @@ const show = async (req, res) => {
         html += `</select>`;
       }
     });
-    console.log(html);
 
-    res.render("formShow.ejs", { html });
+    res.render("formShow.ejs", { html, userEmail });
   } catch (error) {
     console.log(error);
   }
