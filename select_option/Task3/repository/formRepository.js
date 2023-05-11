@@ -1,23 +1,34 @@
 const mysql = require("mysql2");
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
 
 const { Model } = require("sequelize");
 
-const optionMaster = require("../models").optionMaster;
-const selectMaster = require("../models").selectMaster;
+const selectMasters = require("../models").selectMaster;
+const optionMasters = require("../models").optionMaster;
 
-const data1 = async ({ field }) => {
-  return selectMaster.findOne({
-    attributes: ["id", "selectValue"],
-    where: { selectValue: field },
-  });
+const data1 = async ({ userEmail, heading, type, arrayOfOption }) => {
+  return selectMasters.create(
+    {
+      userEmail: userEmail,
+      selectValue: heading,
+      selectType: type,
+      optionMasters: arrayOfOption,
+    },
+    {
+      include: {
+        model: optionMasters,
+      },
+    }
+  );
 };
 
-const data2 = async ({ id }) => {
-  return optionMaster.findAll({
-    attributes: ["optionValue"],
-    where: { selectId: id },
-    // paranoid:false,
+const data2 = async ({ userEmail }) => {
+  return selectMasters.findAll({
+    attributes: ["id", "userEmail", "selectValue", "selectType"],
+    where: {
+      userEmail: userEmail,
+    },
+    include: [{ model: optionMasters, attributes: ["optionValue"] }],
   });
 };
 

@@ -1,5 +1,6 @@
-const selectMasters = require("../models").selectMaster;
-const optionMasters = require("../models").optionMaster;
+// const selectMasters = require("../models").selectMaster;
+// const optionMasters = require("../models").optionMaster;
+const { data1, data2 } = require("../repository/formRepository");
 
 const data = async (req, res) => {
   try {
@@ -20,6 +21,8 @@ const form = async (req, res) => {
     for (i = 0; i < body.heading.length; i++) {
       let s = "";
       let arrayOfOption = [];
+      let heading = body.heading[i];
+      let type = body.type[i];
       if (typeof body.optionName[i] == "string") {
         s = { optionValue: `${body.optionName[i]}` };
         arrayOfOption.push(s);
@@ -30,19 +33,12 @@ const form = async (req, res) => {
         }
       }
 
-      await selectMasters.create(
-        {
-          userEmail: body.userEmail,
-          selectValue: body.heading[i],
-          selectType: body.type[i],
-          optionMasters: arrayOfOption,
-        },
-        {
-          include: {
-            model: optionMasters,
-          },
-        }
-      );
+      const createData = await data1({
+        userEmail,
+        heading,
+        type,
+        arrayOfOption,
+      });
     }
 
     res.redirect(`/show?userEmail=${userEmail}`);
@@ -56,13 +52,7 @@ const show = async (req, res) => {
     let html = "";
     let userEmail = req.query.userEmail;
 
-    let selectMaster = await selectMasters.findAll({
-      attributes: ["id", "userEmail", "selectValue", "selectType"],
-      where: {
-        userEmail: userEmail,
-      },
-      include: [{ model: optionMasters, attributes: ["optionValue"] }],
-    });
+    let selectMaster = await data2({ userEmail });
 
     selectMaster.forEach((element) => {
       let selectType = element.selectType;
