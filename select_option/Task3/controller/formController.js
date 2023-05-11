@@ -18,17 +18,17 @@ const form = async (req, res) => {
 
     let i, j;
 
-    for (i = 0; i < body.heading.length; i++) {
+    if (typeof body.heading == "string") {
       let s = "";
       let arrayOfOption = [];
-      let heading = body.heading[i];
-      let type = body.type[i];
-      if (typeof body.optionName[i] == "string") {
-        s = { optionValue: `${body.optionName[i]}` };
+      let heading = body.heading;
+      let type = body.type;
+      if (typeof body.optionName[0] == "string") {
+        s = { optionValue: `${body.optionName[0]}` };
         arrayOfOption.push(s);
       } else {
-        for (j = 0; j < body.optionName[i].length; j++) {
-          s = { optionValue: `${body.optionName[i][j]}` };
+        for (j = 0; j < body.optionName[0].length; j++) {
+          s = { optionValue: `${body.optionName[0][j]}` };
           arrayOfOption.push(s);
         }
       }
@@ -39,6 +39,29 @@ const form = async (req, res) => {
         type,
         arrayOfOption,
       });
+    } else {
+      for (i = 0; i < body.heading.length; i++) {
+        let s = "";
+        let arrayOfOption = [];
+        let heading = body.heading[i];
+        let type = body.type[i];
+        if (typeof body.optionName[i] == "string") {
+          s = { optionValue: `${body.optionName[i]}` };
+          arrayOfOption.push(s);
+        } else {
+          for (j = 0; j < body.optionName[i].length; j++) {
+            s = { optionValue: `${body.optionName[i][j]}` };
+            arrayOfOption.push(s);
+          }
+        }
+
+        const createData = await data1({
+          userEmail,
+          heading,
+          type,
+          arrayOfOption,
+        });
+      }
     }
 
     res.redirect(`/show?userEmail=${userEmail}`);
