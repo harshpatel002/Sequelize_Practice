@@ -1,6 +1,5 @@
-const { data1, data2 } = require("../repository/formRepository");
-const selectMaster = require("../models").selectMaster;
-const optionMaster = require("../models").optionMaster;
+const selectMasters = require("../models").selectMaster;
+const optionMasters = require("../models").optionMaster;
 
 const data = async (req, res) => {
   try {
@@ -16,7 +15,7 @@ const form = async (req, res) => {
     let { body } = req;
     console.log(body);
 
-    let i, j, k;
+    let i, j;
 
     for (i = 0; i < body.heading.length; i++) {
       let s = "";
@@ -31,9 +30,7 @@ const form = async (req, res) => {
         }
       }
 
-      console.log(arrayOfOption, "oopdifjs");
-
-      await selectMaster.create(
+      await selectMasters.create(
         {
           selectValue: body.heading[i],
           selectType: body.type[i],
@@ -41,16 +38,56 @@ const form = async (req, res) => {
         },
         {
           include: {
-            model: optionMaster,
+            model: optionMasters,
           },
         }
       );
     }
 
-    res.end();
+    res.redirect('/show')
   } catch (error) {
     console.log(error);
   }
 };
 
-module.exports = { form, data };
+const show = async (req, res) => {
+  try {
+    let html = "";
+
+    let selectMaster = await selectMasters.findAll({
+      attributes: ["id", "selectValue", "selectType"],
+      include: [{ model: optionMasters, attributes: ["optionValue"] }],
+    });
+
+    selectMaster.forEach((element) => {
+      console.log("==================================");
+      // console.log(element);
+      let selectType = element.selectType;
+      let selectValue = element.selectValue;
+      html += `<br><span class="heading">${selectValue}:</span>   `;
+      if (selectType == "dropdown") {
+        html += `<select>`;
+      }
+      console.log(selectType);
+      for (const iterator of element.optionMasters) {
+        let optionValue = iterator.optionValue;
+        if (selectType == "radio" || selectType == "checkbox") {
+          html += `<input type="${selectType}" name="${optionValue}" id="${optionValue}" class="radio_checkbox">${optionValue}`;
+        }
+        if (selectType == "dropdown") {
+          html += `<option value="${optionValue}">${optionValue}</option>`;
+        }
+      }
+      if (selectType == "dropdown") {
+        html += `</select>`;
+      }
+    });
+    console.log(html);
+
+    res.render("formShow.ejs", { html });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { form, data, show };

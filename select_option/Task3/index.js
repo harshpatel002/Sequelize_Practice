@@ -9,10 +9,8 @@ const port = 3010;
 app.set("view-engine", "ejs");
 app.use(express.static("assets"));
 
-const addData = require("./routes/addDataRoutes");
 const form=require('./routes/formRoutes')
 
-app.use("/", addData);
 app.use('/',form)
 
 app.listen(port, (req, res) => {

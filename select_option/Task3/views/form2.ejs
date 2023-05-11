@@ -43,7 +43,6 @@
           .setAttribute("id", `add${id2}`);
       }
       function addOptions(id) {
-        console.log('?????????????????????????????????????',id2);
         let ids = id.parentNode.childNodes[5];
         let optionData = id.parentNode.childNodes[5];
         let type = id.parentNode.childNodes[3].value;
@@ -101,7 +100,7 @@
 
         let options = document.getElementById("options");
         let type = document.getElementById("type");
-        // id2++;
+
         options.setAttribute("id", `option${id2}`);
         type.setAttribute("id", `type${id2}`);
       }
