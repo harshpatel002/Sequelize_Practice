@@ -5,10 +5,11 @@ const router = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const { form,data, show } = require("../controller/formController");
+const { form,data, show,validate } = require("../controller/formController");
 
 router.post('/form',form);
 router.get('/data',data)
 router.get('/show',show)
+router.get('/validate',validate)
 
 module.exports= router;

@@ -1,5 +1,5 @@
-// const selectMasters = require("../models").selectMaster;
-// const optionMasters = require("../models").optionMaster;
+const selectMasters = require("../models").selectMaster;
+const optionMasters = require("../models").optionMaster;
 const { data1, data2 } = require("../repository/formRepository");
 
 const data = async (req, res) => {
@@ -105,4 +105,20 @@ const show = async (req, res) => {
   }
 };
 
-module.exports = { form, data, show };
+const validate = async (req, res) => {
+  try {
+    let userEmail = req.query.userEmail;
+    console.log(userEmail);
+    let userEmailValidate = await selectMasters.findAll({
+      attributes: ["userEmail"],
+      where: {
+        userEmail: userEmail,
+      },
+    });
+    res.json(userEmailValidate);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { form, data, show, validate };

@@ -29,7 +29,7 @@
   </head>
 
   <body onload="fun()">
-    <form action="/form" method="post">
+    <form action="/form" method="post" id="regfrm">
       <div id="header">
         <h1>Form Design</h1>
         <input
@@ -52,8 +52,8 @@
         <input type="button" value="Add Field" class="1" onclick="addField()" />
       </div>
       <div id="field"></div>
-
-      <input type="submit" value="Submit" id="submit" />
+      <!-- <input type="submit"  value="Submit" id="submit"> -->
+      <input type="button" value="Submit" id="btnsubmit" onclick="vali()" />
     </form>
 
     <script>
@@ -104,18 +104,18 @@
 
         let field = document.getElementById("field");
         html1 = `<div class="temp">
-      <input type="text" name="heading" id="heading" />
-      <select name="type" id="type" onchange="select(this)">
-        <option value="select">Select</option>
-        <option value="dropdown">Dropdown</option>
-        <option value="radio">Radio</option>
-        <option value="checkbox">Checkbox</option>
-      </select>
-      <div id="options"></div>
-      <input type="button" value="add options" onclick="addOptions(this)" />
-      <input type="button" value="Add Field" class="${id2}" onclick="addField()" />
+        <input type="text" name="heading" id="heading" />
+        <select name="type" id="type" onchange="select(this)">
+          <option value="select">Select</option>
+          <option value="dropdown">Dropdown</option>
+          <option value="radio">Radio</option>
+          <option value="checkbox">Checkbox</option>
+        </select>
+        <div id="options"></div>
+        <input type="button" value="add options" onclick="addOptions(this)" />
+        <input type="button" value="Add Field" class="${id2}" onclick="addField()" />
 
-    </div>`;
+      </div>`;
 
         field.insertAdjacentHTML("beforeend", html1);
 
@@ -124,6 +124,17 @@
 
         options.setAttribute("id", `option${id2}`);
         type.setAttribute("id", `type${id2}`);
+      }
+
+      async function vali() {
+        let userEmail = document.getElementById("userEmail").value;
+        let validate = await fetch(`/validate/?userEmail=${userEmail}`);
+        let datavalidate = await validate.json();
+        if (datavalidate == "") {
+          document.getElementById("regfrm").submit();
+        } else {
+          alert("hello");
+        }
       }
     </script>
   </body>
